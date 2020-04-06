@@ -9,6 +9,7 @@ export default class PersonDetails extends React.Component {
         <img
           className="person-image"
           src="https://starwars-visualguide.com/assets/img/characters/3.jpg"
+          alt="person here"
         />
 
         <div className="card-body">
