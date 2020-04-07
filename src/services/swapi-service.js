@@ -38,6 +38,13 @@ export default class SwapiService {
     const idRegExp = /\/([0-9]*)\/$/;
     return item.url.match(idRegExp)[1];
   }
+  async _extractSpecies(person) {
+    const idRegExp = /\/([0-9]*)\/$/;
+    const speciesId = person.species[0].match(idRegExp)[1];
+
+    const res = await this.getResource(`/species/${speciesId}/`);
+    return res.name;
+  }
   _transformPlanet = (planet) => {
     return {
       id: this._extractId(planet),
@@ -65,8 +72,9 @@ export default class SwapiService {
       id: this._extractId(person),
       name: person.name,
       gender: person.gender,
-      birthYear: person.birthYear,
-      eyeColor: person.eyeColor,
+      birthYear: person.birth_year,
+      eyeColor: person.eye_color,
+      //species: this._extractSpecies(person),
     };
   };
 }

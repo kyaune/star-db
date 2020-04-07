@@ -16,10 +16,6 @@ export default class ItemList extends React.Component {
       });
     });
   }
-  onClick = (e, item) => {
-    console.log("ive been chosen!");
-    console.log(item.name);
-  };
 
   render() {
     const { peopleList } = this.state;
@@ -33,7 +29,7 @@ export default class ItemList extends React.Component {
           <li
             className="list-group-item"
             key={item.id}
-            onClick={() => this.onClick}
+            onClick={() => this.props.onClick(item.id)}
           >
             {item.name}
           </li>
