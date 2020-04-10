@@ -6,7 +6,7 @@ import ErrorIndicator from "../error-indicator";
 
 export default class RandomPlanet extends React.Component {
   state = {
-    planet: {},
+    episode: {},
     loading: true,
     error: false,
   };
@@ -18,12 +18,12 @@ export default class RandomPlanet extends React.Component {
     });
   };
   componentDidMount() {
-    this.updatePlanet();
-    this.interval = setInterval(this.updatePlanet, 5000);
+    this.updateEpisode();
+    this.interval = setInterval(this.updateEpisode, 5000);
   }
-  onPlanetLoaded = (planet) => {
+  onEpisodeLoaded = (episode) => {
     this.setState({
-      planet,
+      episode,
       loading: false,
     });
   };
@@ -32,19 +32,21 @@ export default class RandomPlanet extends React.Component {
     clearInterval(this.interval);
   }
   swapiServie = new SwapiService();
-  updatePlanet = () => {
+  updateEpisode = () => {
     const id = Math.floor(Math.random() * 18) + 2;
     this.swapiServie
-      .getPlanet(id)
-      .then(this.onPlanetLoaded)
+      .getEpisode(id)
+      .then(this.onEpisodeLoaded)
       .catch(this.onError);
   };
 
   render() {
-    const { planet, loading, error } = this.state;
+    const { episode, loading, error } = this.state;
     const errorMessage = error ? <ErrorIndicator /> : null;
     const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error) ? <PlanetView planet={planet} /> : null;
+    const content = !(loading || error) ? (
+      <PlanetView episode={episode} />
+    ) : null;
     return (
       <div className="random-planet jumbotron rounded">
         {errorMessage}
@@ -55,8 +57,8 @@ export default class RandomPlanet extends React.Component {
   }
 }
 
-const PlanetView = ({ planet }) => {
-  const { population, rotationPeriod, diameter, name, id } = planet;
+const PlanetView = ({ episode }) => {
+  const { name, airDate, number, id } = episode;
   return (
     <React.Fragment>
       <img
@@ -68,16 +70,12 @@ const PlanetView = ({ planet }) => {
         <h4>{name}</h4>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">
-            <span className="term">Population:</span>
-            <span>{population}</span>
+            <span className="term">Air Date:</span>
+            <span>{airDate}</span>
           </li>
           <li className="list-group-item">
-            <span className="term">Rotation Period:</span>
-            <span>{rotationPeriod}</span>
-          </li>
-          <li className="list-group-item">
-            <span className="term">Diameter:</span>
-            <span>{diameter}</span>
+            <span className="term">Episode number:</span>
+            <span>{number}</span>
           </li>
         </ul>
       </div>

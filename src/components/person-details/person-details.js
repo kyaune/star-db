@@ -54,14 +54,10 @@ export default class PersonDetails extends React.Component {
 }
 
 const PersonDetailRender = ({ person }) => {
-  const { name, gender, birthYear, eyeColor, id } = person;
+  const { name, gender, origin, image, species, id } = person;
   return (
     <React.Fragment>
-      <img
-        className="person-image"
-        src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
-        alt="person here"
-      />
+      <img className="person-image" src={image} alt="person here" />
 
       <div className="card-body">
         <h4>{name}</h4>
@@ -71,12 +67,12 @@ const PersonDetailRender = ({ person }) => {
             <span>{gender}</span>
           </li>
           <li className="list-group-item">
-            <span className="term">Birth Year: </span>
-            <span>{birthYear}</span>
+            <span className="term">Origin: </span>
+            <span>{origin}</span>
           </li>
           <li className="list-group-item">
-            <span className="term">Eye Color:</span>
-            <span>{eyeColor}</span>
+            <span className="term">Species:</span>
+            <span>{species}</span>
           </li>
         </ul>
       </div>

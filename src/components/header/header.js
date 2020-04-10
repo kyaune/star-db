@@ -12,10 +12,10 @@ const Header = () => {
           <a href="#">People</a>
         </li>
         <li>
-          <a href="#">Planets</a>
+          <a href="#">Episodes</a>
         </li>
         <li>
-          <a href="#">Starships</a>
+          <a href="#">Locations</a>
         </li>
       </ul>
     </div>
