@@ -10,30 +10,30 @@ export default class SwapiService {
     return await res.json();
   }
 
-  async getAllPeople() {
-    const res = await this.getResource(`/character/`);
-    return res.results.map(this._transformPerson);
-  }
-  async getPerson(id) {
+  getAllPeople = async () => {
+    const res = await this.getResource(`/character/1,2,3,4,5,6,7`);
+    return res.map(this._transformPerson);
+  };
+  getPerson = async (id) => {
     const res = await this.getResource(`/character/${id}`);
     return this._transformPerson(res);
-  }
-  async getAllEpisodes() {
-    const res = await this.getResource(`/episode/`);
-    return res.results.map(this._transformEpisode);
-  }
-  async getEpisode(id) {
+  };
+  getAllEpisodes = async () => {
+    const res = await this.getResource(`/episode/1,2,3,4,5,6,7`);
+    return res.map(this._transformEpisode);
+  };
+  getEpisode = async (id) => {
     const res = await this.getResource(`/episode/${id}/`);
     return this._transformEpisode(res);
-  }
-  async getAllLocations() {
-    const res = await this.getResource(`/location/`);
-    return res.results.map(this._transformStarship());
-  }
-  async getLocations(id) {
+  };
+  getAllLocations = async () => {
+    const res = await this.getResource(`/location/1,2,3,4,5,6,7`);
+    return res.map(this._transformLocations);
+  };
+  getLocations = async (id) => {
     const res = await this.getResource(`/location/${id}/`);
     return this._transformStarship(res);
-  }
+  };
   _extractId(item) {
     const idRegExp = /\/([0-9]*)\/$/;
     return item.url.match(idRegExp)[1];
