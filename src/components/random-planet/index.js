@@ -1,3 +1,3 @@
-import RandomPlanet from "./random-planet.js";
+import RandomPlanet from './random-planet';
 
 export default RandomPlanet;

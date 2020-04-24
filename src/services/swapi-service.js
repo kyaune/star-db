@@ -1,67 +1,102 @@
 export default class SwapiService {
-  _apiBase = "https://rickandmortyapi.com/api";
-  async getResource(url) {
+
+  _apiBase = 'https://swapi.co/api';
+  _imageBase = 'https://starwars-visualguide.com/assets/img';
+
+  getResource = async (url) => {
     const res = await fetch(`${this._apiBase}${url}`);
+
     if (!res.ok) {
-      throw new Error(
-        `could not fetch ${this._apiBase}, recieved ${res.status}`
-      );
+      throw new Error(`Could not fetch ${url}` +
+        `, received ${res.status}`)
     }
     return await res.json();
-  }
+  };
 
   getAllPeople = async () => {
-    const res = await this.getResource(`/character/1,2,3,4,5,6,7`);
-    return res.map(this._transformPerson);
+    const res = await this.getResource(`/people/`);
+    return res.results
+      .map(this._transformPerson)
+      .slice(0, 5);
   };
+
   getPerson = async (id) => {
-    const res = await this.getResource(`/character/${id}`);
-    return this._transformPerson(res);
+    const person = await this.getResource(`/people/${id}/`);
+    return this._transformPerson(person);
   };
-  getAllEpisodes = async () => {
-    const res = await this.getResource(`/episode/1,2,3,4,5,6,7`);
-    return res.map(this._transformEpisode);
+
+  getAllPlanets = async () => {
+    const res = await this.getResource(`/planets/`);
+    return res.results
+      .map(this._transformPlanet)
+      .slice(0, 5);
   };
-  getEpisode = async (id) => {
-    const res = await this.getResource(`/episode/${id}/`);
-    return this._transformEpisode(res);
+
+  getPlanet = async (id) => {
+    const planet = await this.getResource(`/planets/${id}/`);
+    return this._transformPlanet(planet);
   };
-  getAllLocations = async () => {
-    const res = await this.getResource(`/location/1,2,3,4,5,6,7`);
-    return res.map(this._transformLocations);
+
+  getAllStarships = async () => {
+    const res = await this.getResource(`/starships/`);
+    return res.results
+      .map(this._transformStarship)
+      .slice(0, 5);
   };
-  getLocations = async (id) => {
-    const res = await this.getResource(`/location/${id}/`);
-    return this._transformStarship(res);
+
+  getStarship = async (id) => {
+    const starship = await this.getResource(`/starships/${id}/`);
+    return this._transformStarship(starship);
   };
-  _extractId(item) {
+
+  getPersonImage = ({id}) => {
+    return `${this._imageBase}/characters/${id}.jpg`
+  };
+
+  getStarshipImage = ({id}) => {
+    return `${this._imageBase}/starships/${id}.jpg`
+  };
+
+  getPlanetImage = ({id}) => {
+    return `${this._imageBase}/planets/${id}.jpg`
+  };
+
+  _extractId = (item) => {
     const idRegExp = /\/([0-9]*)\/$/;
     return item.url.match(idRegExp)[1];
-  }
-  _transformEpisode = (episode) => {
+  };
+
+  _transformPlanet = (planet) => {
     return {
-      id: episode.id,
-      name: episode.name,
-      number: episode.episode,
-      airDate: episode.air_date,
+      id: this._extractId(planet),
+      name: planet.name,
+      population: planet.population,
+      rotationPeriod: planet.rotation_period,
+      diameter: planet.diameter
     };
   };
-  _transformLocations = (location) => {
+
+  _transformStarship = (starship) => {
     return {
-      id: location.id,
-      name: location.name,
-      type: location.type,
-      dimension: location.dimension,
-    };
+      id: this._extractId(starship),
+      name: starship.name,
+      model: starship.model,
+      manufacturer: starship.manufacturer,
+      costInCredits: starship.cost_in_credits,
+      length: starship.length,
+      crew: starship.crew,
+      passengers: starship.passengers,
+      cargoCapacity: starship.cargo_capacity
+    }
   };
+
   _transformPerson = (person) => {
     return {
-      id: person.id,
+      id: this._extractId(person),
       name: person.name,
       gender: person.gender,
-      origin: person.origin.name,
-      image: person.image,
-      species: person.species,
-    };
-  };
+      birthYear: person.birth_year,
+      eyeColor: person.eye_color
+    }
+  }
 }

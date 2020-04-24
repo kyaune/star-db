@@ -1,3 +1,3 @@
-import ErrorIndicator from "./error-indicator.js";
+import ErrorIndicator from './error-indicator';
 
 export default ErrorIndicator;
