@@ -2,6 +2,7 @@
   "name": "star-db",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/star-db/",
   "engines": {
     "npm": "6.14.4",
     "node": "14.0.0"
